@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Introduction to Kubernetes Security Monitoring :: securetty&#39;s blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Let’s talk about Kubernetes security As Kubernetes continues to grow in adoption, it is important for us to know how to secure it. In a dynamic infrastructure platform such as Kubernetes, detecting and addressing threats is important but also challenging at the same time.
+Falco, the open source cloud native runtime security project, is one of the leading open source Kubernetes threat detection engines. Falco was created by Sysdig in 2016 and is the first runtime security project to join CNCF as an incubation-level project." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://example.org/posts/intro-to-k8s-security-monitoring/" />
+
+
+
+
+<link rel="stylesheet" href="http://example.org/assets/style.css">
+
+  <link rel="stylesheet" href="http://example.org/assets/green.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="http://example.org/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="http://example.org/img/favicon/green.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Introduction to Kubernetes Security Monitoring">
+<meta property="og:description" content="Let’s talk about Kubernetes security As Kubernetes continues to grow in adoption, it is important for us to know how to secure it. In a dynamic infrastructure platform such as Kubernetes, detecting and addressing threats is important but also challenging at the same time.
+Falco, the open source cloud native runtime security project, is one of the leading open source Kubernetes threat detection engines. Falco was created by Sysdig in 2016 and is the first runtime security project to join CNCF as an incubation-level project." />
+<meta property="og:url" content="http://example.org/posts/intro-to-k8s-security-monitoring/" />
+<meta property="og:site_name" content="securetty&#39;s blog" />
+
+  
+    <meta property="og:image" content="http://example.org/img/favicon/green.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-05-19 23:40:54 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    securetty&#39;s blog
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/showcase">Showcase</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/showcase">Showcase</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="http://example.org/posts/intro-to-k8s-security-monitoring/">Introduction to Kubernetes Security Monitoring</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-05-19 
+      </span>
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h3 id="lets-talk-about-kubernetes-security">Let’s talk about Kubernetes security<a href="#lets-talk-about-kubernetes-security" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>As Kubernetes continues to grow in adoption, it is important for us to know how to secure it. In a dynamic infrastructure platform such as Kubernetes, detecting and addressing threats is important but also challenging at the same time.</p>
+<p>Falco, the open source cloud native runtime security project, is one of the leading open source Kubernetes threat detection engines. Falco was created by Sysdig in 2016 and is the first runtime security project to join CNCF as an incubation-level project. Falco detects unexpected application behaviour and alerts on threats at runtime.</p>
+<h3 id="why-is-it-difficult">Why is it difficult?<a href="#why-is-it-difficult" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Security is one of the harder challenges of running Kubernetes according to <a href="https://thenewstack.io/top-challenges-kubernetes-users-face-deployment/">this analysis</a>{: target=&quot;_blank&quot; rel=&ldquo;noopener noreferrer&rdquo;}. The reason it is difficult is that there are multiple moving layers in a cloud native stack, hence operators may not focus on security early on. Another contributor is that some distributions of Kubernetes may not be secure by default, contrary to what operators assume.</p>
+<h3 id="prevention-and-detection">Prevention and Detection<a href="#prevention-and-detection" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Information security is a process that moves through phases building and strengthening itself along the way. Security is a journey, not a destination. Although the Information Security process has multiple strategies and activities, we can group them all into three distinct phases - prevention, detection, and response.</p>
+<h5 id="preventive-measures">Preventive measures<a href="#preventive-measures" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h5>
+<p>Preventive measures include having proper access control, authentication and authorization in place. No matter what level of protection a system may have, it will get compromised given a greater level of motivation and skill. There is no foolproof “silver bullet” security solution. A defense in-depth strategy should be deployed so when each layer fails, it fails safely to a known state and sounds an alarm. The most important element of this strategy is timely detection and notification of a compromise.</p>
+<h5 id="detective-measures">Detective measures<a href="#detective-measures" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h5>
+<p>An example of detective measures includes sending logs from security and network devices like host-based intrusion detection systems (HIDS) and network intrusion detection systems (NIDS) to an SIEM and building rules to alert when suspicious activity is seen. According to the defense in-depth approach, we should be auditing and placing detection triggers on multiple layers of the technology stack, from looking at cloud audit logs (like Cloudtrail), the Kubernetes cluster, containers, application code, host OS and the kernel. We will take a look at the detective measures in this blog which will further help us to respond to these threats.</p>
+<p><img src="/assets/img/Blog/an-introduction-to-kubernetes-security-using-falco/an-introduction-to-kubernetes-security-using-falco-securing-the-layers.jpg" alt="Securing multiple layers"></p>
+<p>Image credit: <a href="https://speakerdeck.com/leodido/falco-runtime-security-analysis-through-syscalls-f14e1a38-b460-410e-9eb8-73ab0262d654">@leodido</a></p>
+<h3 id="setting-falco-up-on-kubernetes">Setting Falco up on Kubernetes<a href="#setting-falco-up-on-kubernetes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The most secure way to run Falco is to install Falco directly on the host system so that Falco is isolated from Kubernetes in the case of compromise. Then the Falco alerts can be consumed via read-only agents running in Kubernetes. Falco can also be run directly in Kubernetes if isolation is not a concern. We will be setting Falco up using Helm in this tutorial, but you should be aware of the pros and cons of the method you are choosing.</p>
+<h4 id="steps">Steps<a href="#steps" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Prerequisite: We need a working Kubernetes setup for this. You can use a cloud Kubernetes offering from AWS/GCP or set one up yourself locally using <a href="https://minikube.sigs.k8s.io/docs/start/">minikube</a>{: target=&quot;_blank&quot; rel=&ldquo;noopener noreferrer&rdquo;}. We also require kubectl and <a href="https://helm.sh/">Helm</a>{: target=&quot;_blank&quot; rel=&ldquo;noopener noreferrer&rdquo;} to be installed on your client machine.</p>
+<p>Let’s start with the installation of Falco.</p>
+<ol>
+<li>
+<p>Add the falcosecurity repo in Helm</p>
+<pre><code>$ helm repo add falcosecurity https://falcosecurity.github.io/charts
+
+$ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &quot;falcosecurity&quot; chart repository
+...Successfully got an update from the &quot;stable&quot; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre></li>
+<li>
+<p>Installing the chart</p>
+<pre><code>$ helm install falco falcosecurity/falco
+NAME: falco
+LAST DEPLOYED: Mon Nov 9 22:09:28 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Falco agents are spinning up on each node in your cluster. After a few
+seconds, they are going to start monitoring your containers looking for
+security issues.
+No further action should be required.
+</code></pre></li>
+<li>
+<p>After a few seconds Falco should be running, to verify, you will see the pods you created in a moment.</p>
+<pre><code>$ helm ls
+
+$ kubectl get pods
+</code></pre></li>
+</ol>
+<h3 id="setting-up-the-environment">Setting up the environment<a href="#setting-up-the-environment" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>We will need an environment to emulate the attacks and detect them. Let us set it up. We will be using Helm for this.</p>
+<p>Let&rsquo;s add Helm&rsquo;s stable repository and install <code>mysql-db</code> chart from it.</p>
+<pre><code>$ helm repo add stable https://charts.helm.sh/stable
+
+$ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &quot;falcosecurity&quot; chart repository
+...Successfully got an update from the &quot;stable&quot; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><pre><code>$ helm install mysql-db stable/mysql
+NAME: mysql-db
+LAST DEPLOYED: Mon Nov 9 22:11:07 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+MySQL can be accessed via port 3306 on the following DNS name from within your cluster:
+mysql-db.default.svc.cluster.local
+
+…
+</code></pre><p>Let us now monitor Falco logs:</p>
+<pre><code>$ kubectl get pods
+NAME                      READY  STATUS   RESTARTS  AGE
+falco-6rr9r               1/1    Running  0         49m
+mysql-db-d5dc6b85d-77hrm  1/1    Running  0         47m
+ubuntu                    1/1    Running  0         43m
+
+$ kubectl logs -f falco-6rr9r # Replace with your Falco pod name here
+</code></pre><h3 id="analyzing-falcos-logs">Analyzing Falco’s logs<a href="#analyzing-falcos-logs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The first steps when an attacker does after they gain access to a Kubernetes cluster is to enumerate available network hosts. An attacker will try to find their way around a seemingly new environment. They can try to use safe/less noisy commands to gain more insights from the cluster. Let us go through the steps an attacker might do and look at the corresponding detection signals from Falco. We will use the default ruleset which comes with Falco, these rules can be tuned as per your needs in your environment. You can find Falco’s default rules here: <a href="https://github.com/falcosecurity/falco/tree/master/rules">https://github.com/falcosecurity/falco/tree/master/rules</a></p>
+<h4 id="terminal-shell-in-container">Terminal shell in container<a href="#terminal-shell-in-container" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Description: Detecting terminal shells being spawned in pods. We open a terminal shell on a running pod to replicate the scenario.</p>
+<pre><code>$ kubectl exec -it mysql-db-d5dc6b85d-77hrm -- bash -il # Replace with the mysql pod name you have
+</code></pre><p><strong>Detection:</strong></p>
+<pre><code>18:08:40.584075795: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=default k8s.pod=mysql-db-d5dc6b85d-77hrm container=3fc8155f9d1a shell=bash parent=runc cmdline=bash -il terminal=34816 container_id=3fc8155f9d1a image=mysql) k8s.ns=default k8s.pod=mysql-db-d5dc6b85d-77hrm container=3fc8155f9d1a
+</code></pre><h4 id="contact-kubernetes-api-server-from-container">Contact Kubernetes API Server From Container<a href="#contact-kubernetes-api-server-from-container" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Description: We run kube-recon, which is a tool which does initial reconnaissance in a Kubernetes environment. This rule detects attempts to contact the Kubernetes API Server from a container.</p>
+<pre><code>$ kubectl run kuberecon --tty -i --image octarinesec/kube-recon
+/ # ./kube-recon
+2020/11/09 18:21:22 Testing K8S API permissions
+2020/11/09 18:21:23 Your K8S API Server is configured properly
+2020/11/09 18:21:23 Running Nmap on the discovered IPs
+2020/11/09 18:21:23 Getting local ip address and subnet
+2020/11/09 18:21:23 Trying to download EICAR file
+2020/11/09 18:21:23 Downloaded EICAR successfully. No malware protection is in place
+</code></pre><p><strong>Detection:</strong></p>
+<pre><code>18:20:45.927730981: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=&lt;NA&gt; k8s.pod=&lt;NA&gt; container=4f63870599d0 shell=sh parent=&lt;NA&gt; cmdline=sh terminal=34816 container_id=4f63870599d0 image=octarinesec/kube-recon) k8s.ns=&lt;NA&gt; k8s.pod=&lt;NA&gt; container=4f63870599d0
+18:21:22.657590195: Warning Docker or kubernetes client executed in container (user=root user_loginuid=-1 k8s.ns=default k8s.pod=kuberecon container=4f63870599d0 parent=kube-recon cmdline=kubectl get pods image=octarinesec/kube-recon:latest) k8s.ns=default k8s.pod=kuberecon container=4f63870599d0
+18:21:22.723707794: Notice Unexpected connection to K8s API Server from container (command=kubectl get pods k8s.ns=default k8s.pod=kuberecon container=4f63870599d0 image=octarinesec/kube-recon:latest connection=172.17.0.5:56972-&gt;10.96.0.1:443) k8s.ns=default k8s.pod=kuberecon container=4f63870599d0
+</code></pre><h4 id="checking-if-shell-is-a-container-environment-change-thread-namespace">Checking if shell is a container environment (Change thread namespace)<a href="#checking-if-shell-is-a-container-environment-change-thread-namespace" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Description: amicontained is a tool to check whether the shell is a containerized environment. The rule detects an attempt to change a program/thread&rsquo;s namespace.</p>
+<pre><code>$ cd /tmp; curl -L -o amicontained https://github.com/genuinetools/amicontained/releases/download/v0.4.7/amicontained-linux-amd64; chmod 555 amicontained; ./amicontained
+
+Output:
+Container Runtime: docker
+Has Namespaces:
+  pid: true
+  user: false
+AppArmor Profile: kernel
+Capabilities:
+  BOUNDING -&gt; chown dac_override fowner fsetid kill setgid setuid setpcap net_bind_service net_raw sys_chroot mknod audit_write setfcap
+Seccomp: disabled
+Blocked Syscalls (19):
+  MSGRCV SYSLOG SETSID VHANGUP PIVOT_ROOT ACCT SETTIMEOFDAY UMOUNT2 SWAPON SWAPOFF REBOOT SETHOSTNAME SETDOMAINNAME INIT_MODULE DELETE_MODULE LOOKUP_DCOOKIE KEXEC_LOAD OPEN_BY_HANDLE_AT FINIT_MODULE
+</code></pre><p><strong>Detection:</strong></p>
+<pre><code>18:43:37.288344192: Notice Namespace change (setns) by unexpected program (user=root user_loginuid=-1 command=amicontained parent=bash k8s.ns=default k8s.pod=kuberecon container=c6112967b4f2 container_id=c6112967b4f2 image=octarinesec/kube-recon:latest) k8s.ns=default k8s.pod=kuberecon container=c6112967b4f2
+Mon Nov 9 18:43:37 2020: Falco internal: syscall event drop. 9 system calls dropped in last second.
+18:43:37.970973376: Critical Falco internal: syscall event drop. 9 system calls dropped in last second. (ebpf_enabled=0 n_drops=9 n_drops_buffer=0 n_drops_bug=0 n_drops_pf=9 n_evts=15232)
+</code></pre><h3 id="next-steps">Next steps<a href="#next-steps" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>In this tutorial, we looked at the basics of Kubernetes security monitoring and how Falco allows us to use rules to achieve the detection of security issues. The default detection ruleset of Falco is enough to get yourself up and running, but you will most likely need to build on top of the default ruleset. We will explore building and tuning these rules in the upcoming posts on security.<!-- raw HTML omitted -->That&rsquo;s a wrap folks! Do share your thoughts in the comment section below.  You can also connect with me and start a conversation on <a href="https://twitter.com/securetty_">twitter</a></p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="http://example.org/posts/hello-world/">
+                <span class="button__text">Hello World</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="http://example.org/assets/main.js"></script>
+<script src="http://example.org/assets/prism.js"></script>
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
