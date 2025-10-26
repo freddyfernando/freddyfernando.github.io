@@ -1,9 +1,0 @@
-[submodule "blog/themes/hugo-notepadium"]
-	path = blog/themes/hugo-notepadium
-	url = https://GitHub.com/cntrump/hugo-notepadium.git
-[submodule "themes/hugo-notepadium"]
-	path = themes/hugo-notepadium
-	url = https://GitHub.com/cntrump/hugo-notepadium.git
-[submodule "themes/terminal"]
-	path = themes/terminal
-	url = https://github.com/panr/hugo-theme-terminal.git
