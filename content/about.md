@@ -54,7 +54,6 @@ Probably reading about technology. Tech podcasts, security conferences, the occa
 
 ### Let's connect
 
-- **Email:** frederickfrnnd@gmail.com
 - **GitHub:** [freddyfernando](https://github.com/freddyfernando)
 - **LinkedIn:** [Frederick Fernando](https://linkedin.com/in/fredericfernando)
 - **Blog:** [Writings](https://freddyfernando.github.io/posts)
