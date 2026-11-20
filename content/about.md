@@ -55,5 +55,5 @@ Probably reading about technology. Tech podcasts, security conferences, the occa
 ### Let's connect
 
 - **GitHub:** [freddyfernando](https://github.com/freddyfernando)
-- **LinkedIn:** [Frederick Fernando](https://linkedin.com/in/fredericfernando)
+- **LinkedIn:** [Frederick Fernando](https://www.linkedin.com/in/frederick-fernando/)
 - **Blog:** [Writings](https://freddyfernando.github.io/posts)
